@@ -13,9 +13,9 @@ import server.service.RoleService;
 import server.service.UserService;
 
 @SpringBootApplication
-public class TodoApplication {
+public class ServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TodoApplication.class, args);
+        SpringApplication.run(ServerApplication.class, args);
     }
 
     @Bean
