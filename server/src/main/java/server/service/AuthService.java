@@ -2,11 +2,15 @@ package server.service;
 
 import org.springframework.http.ResponseEntity;
 import server.dto.LoginRequest;
+import server.dto.LoginResponse;
+import server.dto.RegisterRequest;
 import server.dto.UserResponse;
 import server.model.User;
 
-public interface AuthService {
-    ResponseEntity<String> register(User user);
+import java.util.Map;
 
-    ResponseEntity<UserResponse>   login(LoginRequest loginRequest);
+public interface AuthService {
+    ResponseEntity<Map<String,String>> register(RegisterRequest user);
+
+    ResponseEntity<LoginResponse>   login(LoginRequest loginRequest);
 }

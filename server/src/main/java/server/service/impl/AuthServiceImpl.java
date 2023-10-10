@@ -1,15 +1,26 @@
 package server.service.impl;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import server.dto.LoginRequest;
+import server.dto.LoginResponse;
+import server.dto.RegisterRequest;
 import server.dto.UserResponse;
 import server.model.User;
 import server.repository.UserRepository;
 import server.service.AuthService;
 import org.springframework.security.crypto.bcrypt.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -18,35 +29,47 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public ResponseEntity<String> register(User user) {
+    public ResponseEntity<Map<String, String>> register(RegisterRequest user) {
         User existingUser = userRepository.findByEmail(user.getEmail());
+
         if (existingUser != null) {
-            return ResponseEntity.status(409).body("The email is already in use.");
+            Map<String, String> response = new HashMap<>();
+            response.put("email", "The email is already in use.");
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
-        // Hash the password before storing it
+        if (!Objects.equals(user.getPassword(), user.getConfirmationPassword())){
+            Map<String,String> response = new HashMap<>();
+            response.put("confirmationPassword","Password and confirmation password do not match.");
+
+            return ResponseEntity.status(400).body(response);
+
+        }
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 
-        // Create a new user with the hashed password
         User newUser = new User(user.getFullName(), user.getEmail(), hashedPassword);
 
-        // Store the new user in the database
         userRepository.save(newUser);
 
-        return ResponseEntity.ok().body("registered succesfully");
+        Map<String,String> response = new HashMap<>();
+        response.put("message","registered succesfully");
+        return ResponseEntity.ok().body(response);
     }
 
     @Override
-    public ResponseEntity<UserResponse> login(LoginRequest loginRequest) {
-        System.out.println(loginRequest.getEmail());
+    public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
         User existingUser = userRepository.findByEmail(loginRequest.getEmail());
 
         if (existingUser != null && BCrypt.checkpw(loginRequest.getPassword(), existingUser.getPassword())) {
-            UserResponse response = new UserResponse(existingUser, "Login successful");
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new UserResponse(null, "Login failed"));
+            String message= "Login successful";
+            LoginResponse res= new LoginResponse(message,existingUser);
+            return ResponseEntity.ok().body(res);
+        }else {
+            String message= "Email or password is incorrect";
+            LoginResponse res= new LoginResponse(message,null);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+
         }
     }
-
 
 }

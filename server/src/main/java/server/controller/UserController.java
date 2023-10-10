@@ -1,9 +1,6 @@
 package server.controller;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.model.Role;
 import server.model.User;
 import server.service.UserService;
 
@@ -13,8 +10,12 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
+
+
 
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
