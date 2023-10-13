@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Register} from "../../dto/dto.module";
 import {UserService} from "../../api/user/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -31,8 +32,8 @@ export class RegisterComponent {
         confirmationPassword:''
     },
     };
-    constructor(private userService: UserService) {}
-     response:String=''
+  constructor(private userService: UserService, private router: Router) {}
+  response:String=''
     submitForm(){
         // Reset field name flags to false
         this.errorMessage.fieldName.email = false;
@@ -42,6 +43,7 @@ export class RegisterComponent {
             this.userService.register('register', this.formData).subscribe(
                 (response) => {
                     this.response = response.message;
+                    this.router.navigate(['/login'])
                 },
                 (error) => {
                     if(error.error.email){

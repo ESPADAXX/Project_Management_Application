@@ -13,7 +13,7 @@ public class LoginRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotEmpty(message = "Email is required")
+    @NotEmpty(message = "Password is required")
     private String password;
 
     public LoginRequest(String email, String password) {

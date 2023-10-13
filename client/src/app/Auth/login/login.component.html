@@ -1,5 +1,6 @@
 
 <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css');</style>
+<div class="absolute flex content-center justify-center w-full z-2">
 
 <div class="min-w-screen min-h-screen bg-blend-color flex items-center justify-center z-2 px-5 py-5">
   <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
@@ -30,7 +31,7 @@
               <label for="password" class="text-xs font-semibold px-1">Password</label>
               <div class="flex">
                 <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                <input type="password" id="password" name="password" [(ngModel)]="formData.password" [ngClass]="{ 'border-rose-900': errorMessage.fieldName.password ==true}" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
+                <input type="password" id="password" name="password" [(ngModel)]="formData.password" [ngClass]="{ 'border-rose-900': errorMessage.fieldName.password == true}" class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
               </div>
               <div *ngIf="errorMessage.fieldName.password" class="text-rose-900 text-sm">
                 {{errorMessage.message.password}}
@@ -44,17 +45,18 @@
             <div class="w-full px-3 mb-5">
               <div class="flex">
                 <span>You don't have account?</span>
-                <a routerLink="" class="text-[#46648c] font-bold">Sign Up</a>
+                <a routerLink="/register" class="text-[#46648c] font-bold">Sign Up</a>
               </div>
             </div>
           </div>
           <div class="flex -mx-3">
             <div class="w-full px-3 mb-5">
-              <button class="block w-full max-w-xs mx-auto bg-[#46648c] hover:bg-[#242444] focus:bg-[#242444] text-white rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
+              <button class="block w-full max-w-xs mx-auto bg-[#46648c] hover:bg-[#242444] focus:bg-[#242444] text-white rounded-lg px-3 py-3 font-semibold">LOGIN NOW</button>
             </div>
           </div>
         </form>
       </div>
     </div>
   </div>
+</div>
 </div>

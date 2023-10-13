@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../api/user/user.service';
 import {Login, User} from "../../dto/dto.module";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent {
   user: User | undefined
   response: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,private router:Router) {}
 
   submitForm() {
     this.errorMessage.fieldName.email = false;
@@ -40,6 +41,8 @@ export class LoginComponent {
         (response) => {
           this.response = response.message;
           this.user=response.user
+          sessionStorage.setItem('user', JSON.stringify(response.user));
+          this.router.navigate(["/"])
         },
         (error) => {
           if (error.error.email) {

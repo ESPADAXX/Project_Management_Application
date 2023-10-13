@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {ConfigService} from "../config.service";
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {Login, Register} from "../../dto/dto.module";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {List} from "postcss/lib/list";
 
 
 @Injectable({
@@ -15,9 +16,9 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  get(endpoint:String,id:Number) {
+  async get(endpoint: String, id: Number): Promise<AxiosResponse<Object>> {
     const url = `${this.configService.baseUrl}/${endpoint}/${id}`;
-    return axios.get(url);
+    return await axios.get(url);
   }
 
   login(endpoint: string, data: Login):Observable<any> {
