@@ -1,12 +1,15 @@
 package server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,9 +23,7 @@ public class Role {
 
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
-    private Collection<User> users;
+
     public Role(String name) {
         this.name = name;
     }

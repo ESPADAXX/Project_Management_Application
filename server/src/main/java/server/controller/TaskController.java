@@ -3,6 +3,7 @@ package server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.dto.TaskCountDto;
 import server.model.Task;
 import server.service.TaskService;
 
@@ -40,6 +41,19 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Integer id) {
         return taskService.deleteTask(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Task>> findTaskByIdUser(@PathVariable Integer id){
+        return ResponseEntity.ok(taskService.findUndoneTasksSortedByEndDateAndUserId(id));
+    }
+    @GetMapping("/department")
+    public ResponseEntity<List<TaskCountDto>> findTasksGroupedByDepartment(){
+        return ResponseEntity.ok(taskService.findTasksGroupedByDepartment());
+    }
+    @GetMapping("/project/{id}")
+    public ResponseEntity<List<Task>> findTasksByProjectId(@PathVariable Integer id){
+        return ResponseEntity.ok(taskService.findTasksByProjectId(id));
     }
 }
 

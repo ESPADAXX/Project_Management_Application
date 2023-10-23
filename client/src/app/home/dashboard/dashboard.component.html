@@ -1,7 +1,128 @@
-<div class="relative flex content-center flex-col h-full">
-    <div class="flex justify-center space-x-5">
-        <div class="bg-[#006e95] w-[30%] h-[300px] rounded-[30px]"> </div>
-        <div class="bg-[#0098a9] w-[30%] h-[300px] rounded-[30px]"></div>
-        <div class="bg-[#00bfa0] w-[30%] h-[300px] rounded-[30px]"></div>
+<div class="relative flex content-center flex-col h-full pt-[90px]">
+    <div class="grid grid-cols-3 gap-3">
+        <div class="bg-white  flex h-[300px] rounded-[30px] relative shadow-2xl">
+            <div class="flex flex-col justify-center relative w-[50%] mt-5">
+              <span style="font-family: 'Lato', sans-serif" class="text-[#36466a] absolute top-[60px] text-[150px] ml-9"> {{totalTasks}} </span>
+              <span style="font-family: 'Lato', sans-serif" class="text-[#36466a] absolute left-[30px] top-[150px] text-[50px] ml-6">Tasks</span>
+              <span style="font-family: 'Lato', sans-serif" class="text-[#36466a] absolute left-[80px] top-[190px] text-[20px] ml-6"> For you</span>
+            </div>
+            <div class="mt-12">
+                <ul *ngIf="tasksWithColors" class=" space-y-9">
+                    <ng-container *ngFor="let task of tasksWithColors">
+                        <li style="border-bottom-width: 3px; font-family: 'Lato', sans-serif" class="cursor-pointer w-[215px] flex items-center  relative ">
+                            <span class="absolute left-[-22px]">
+                              <img [src]="task.icon" class="w-5 ">
+                            </span>
+                          <div class="flex flex-col">
+                            <span  class=" pb-1 hover:text-lg text-[#36466a]">{{task.title}}</span>
+                            <span class="text-[10px] text-[#36466A] " [style.color]="task.color">{{task.time}}</span>
+                          </div>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+        <div routerLink="/project" class="bg-white  h-[300px] rounded-[30px] relative shadow-2xl cursor-pointer">
+          <div class="flex flex-col justify-center relative w-[50%] mt-5">
+            <span  class="text-[#006e95] absolute top-[60px] text-[150px] ml-9 font-lato"> {{projectCount}} </span>
+            <span style="font-family: 'Lato', sans-serif" class="text-[#006e95] absolute left-[30px] top-[150px] text-[50px] ml-6">Projects</span>
+          </div>
+        </div>
+        <div class="bg-white  h-[300px] rounded-[30px] shadow-2xl">
+            <div class="flex flex-col justify-center absolute w-[300px] h-full">
+              <span style="font-family: 'Lato', sans-serif" class="text-[#0098a9] absolute left-[10px] top-[40px] text-[50px] ml-6">
+                Done Tasks
+              </span>
+              <span  style="font-family: 'Lato', sans-serif" class="text-[#0098a9] absolute left-[40px] top-[120px] text-[18px] ml-6">
+                For every Department
+              </span>
+            </div>
+            <div *ngIf="departmentPercentages" id="chart">
+                <apx-chart
+                        [series]="chartOptions.series!"
+                        [chart]="chartOptions.chart!"
+                        [plotOptions]="chartOptions.plotOptions!"
+                        [labels]="chartOptions.labels!"
+                        [legend]="chartOptions.legend!"
+                        [colors]="chartOptions.colors!"
+                        [responsive]="chartOptions.responsive!"
+                ></apx-chart>
+            </div>
+        </div>
+        <div class="col-span-2 bg-white h-[500px] rounded-[30px] relative shadow-2xl pt-[90px]">
+          <apx-chart
+            [series]="chartOptions2.series!"
+            [chart]="chartOptions2.chart!"
+            [dataLabels]="chartOptions2.dataLabels!"
+            [plotOptions]="chartOptions2.plotOptions!"
+            [yaxis]="chartOptions2.yaxis!"
+            [legend]="chartOptions2.legend!"
+            [fill]="chartOptions2.fill!"
+            [stroke]="chartOptions2.stroke!"
+            [tooltip]="chartOptions2.tooltip!"
+            [xaxis]="chartOptions2.xaxis!"
+          ></apx-chart>
+        </div>
+        <div class="bg-white h-[500px] rounded-[30px] relative shadow-2xl">
+              <div id="calendar-div" class="w-full h-full flex flex-col justify-center items-center">
+
+                    <full-calendar [options]="calendarOptions"></full-calendar>
+
+              </div>
+        </div>
     </div>
+    <div>
+      <!-- component -->
+      <div class="overflow-x-auto">
+        <div class="min-w-screen flex items-center justify-center font-sans overflow-hidden">
+          <div class="w-full">
+            <div class="bg-white shadow-md w-full rounded my-6">
+              <table class="min-w-max w-full table-auto rounded-full">
+                <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                  <th class="py-3 px-6 text-left">User</th>
+                  <th class="py-3 px-6 text-center">Department</th>
+                  <th class="py-3 px-6 text-center">Project</th>
+                  <th class="py-3 px-6 text-center">Task</th>
+                  <th class="py-3 px-6 text-center">Status</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                  <tr *ngFor="let task of  tasks" class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6 text-left">
+                      <div class="flex items-center">
+                        <div class="mr-2">
+                          <img class="w-6 h-6 rounded-full" src="assets/img/user.png"/>
+                        </div>
+                        <span>{{task.user.fullName}}</span>
+                      </div>
+                    </td>
+                    <td class="py-3 px-6 text-center">
+                      {{task.department.name}}
+                    </td>
+                    <td class="py-3 px-6 text-center whitespace-nowrap">
+                      <div class="flex justify-center text-center">
+                        <span class="font-medium text-center">{{task.project.title}}</span>
+                      </div>
+                    </td>
+                    <td class="py-3 px-6 text-center">
+                      <div class="flex item-center justify-center">
+                       <div>{{task.title}}</div>
+                      </div>
+
+                    </td>
+                    <td class="py-3 px-6 text-center">
+                      <span [ngStyle]="{'background-color': task.status === 'In Progress' ? '#00bfa0' : (task.status === 'Done' ? '#8ae185' : '#f9b071')}" class="text-white py-1 px-3 rounded-full text-xs">{{task.status}}</span>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
+

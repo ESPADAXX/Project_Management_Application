@@ -1,1 +1,58 @@
-<p>project works!</p>
+<div class="relative bg-white rounded-[40px] flex items-center flex-col mt-[90px] w-[99%] p-7">
+  <div class=" w-full flex justify-start">
+    <span class="text-[#006e95] text-[50px] font-lato"> Projects List </span>
+  </div>
+  <div class=" w-full flex justify-end">
+    <button class="bg-[#0098a9] w-[120px] rounded-full h-[40px] text-white" routerLink="/new-project">Add New Project</button>
+  </div>
+  <div class="rounded-3xl overflow-hidden w-[98%] my-6">
+    <table class="min-w-full table-auto ">
+      <thead>
+      <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <th class="py-3 px-6 text-left">ID</th>
+        <th class="py-3 px-6 text-center">Title</th>
+        <th class="py-3 px-6 text-center">Description</th>
+        <th class="py-3 px-6 text-center">Start Date</th>
+        <th class="py-3 px-6 text-center">End Date</th>
+        <th class="py-3 px-6 text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody class="text-gray-600 text-sm font-light">
+      <tr *ngFor="let project of  projects" class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"  [routerLink]="'/project/' + project.id">
+        <td class="py-3 px-6 text-center">
+          <div class="flex items-center">
+            <span>{{project.id}}</span>
+          </div>
+        </td>
+        <td class="py-3 px-6 text-center">
+          {{project.title}}
+        </td>
+        <td class="py-3 px-6 text-center whitespace-nowrap">
+          <div class="flex justify-center text-center">
+            <span class="font-medium text-center">{{truncateDescription(project.description)}}</span>
+          </div>
+        </td>
+        <td class="py-3 px-6 text-center">
+          <div class="flex items-center justify-center">
+            <div>{{project.dateDebut}}</div>
+          </div>
+
+        </td>
+        <td class="py-3 px-6 text-center">
+          <span  class="py-1 px-3 rounded-full text-xs">{{project.dateFin}}</span>
+        </td>
+        <td class="py-3 px-6 text-center">
+          <div class="flex items-center justify-center">
+            <div class="flex justify-between">
+              <img [routerLink]="'/edit-project/' + project.id" src="assets/img/edit.png" alt="edit" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-yellow-100">
+              <img src="assets/img/delete.png" alt="delete" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-red-300 ">
+            </div>
+          </div>
+
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

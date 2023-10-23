@@ -24,8 +24,7 @@ import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    // Simulate a database or storage for user data
-//    private final Map<String, User> usersDatabase = new HashMap<>();
+
     @Autowired
     private UserRepository userRepository;
     @Override

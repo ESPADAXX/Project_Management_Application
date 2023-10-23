@@ -1,5 +1,6 @@
 package server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,6 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "department",fetch=FetchType.LAZY)
-    private Collection<User> users;
 
     public Department(String name) {
         this.name = name;

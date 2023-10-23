@@ -1,9 +1,11 @@
 package server.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import server.model.User;
 import server.service.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -36,8 +38,8 @@ public class UserController {
 
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user) {
-		return userService.updateUser(id, user);
+	public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user , @RequestBody MultipartFile file) throws IOException {
+		return userService.updateUser(id, user,file);
 
 	}
 

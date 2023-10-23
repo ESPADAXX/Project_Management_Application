@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Register} from "../../dto/dto.module";
+import {Register} from "../../dto/user.dto.module";
 import {UserService} from "../../api/user/user.service";
 import {Router} from "@angular/router";
 

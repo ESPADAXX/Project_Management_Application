@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ConfigService} from "../config.service";
 import axios, {AxiosResponse} from "axios";
-import {Login, Register} from "../../dto/dto.module";
+import {Login, Register, User} from "../../dto/user.dto.module";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {List} from "postcss/lib/list";
@@ -16,7 +16,7 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  async get(endpoint: String, id: Number): Promise<AxiosResponse<Object>> {
+  async getUserById(endpoint: String, id: Number): Promise<AxiosResponse<User>> {
     const url = `${this.configService.baseUrl}/${endpoint}/${id}`;
     return await axios.get(url);
   }
@@ -30,5 +30,11 @@ export class UserService {
     return this.http.post(url, data);
   }
 
-  // Add other HTTP methods for user-related API calls
+  async updateUser(endpoint: string, id: number, user: FormData
+  ):Promise<AxiosResponse<User>>{
+    const url = `${this.configService.baseUrl}/${endpoint}/${id}`
+
+
+    return await axios.put(url,user)
+  }
 }

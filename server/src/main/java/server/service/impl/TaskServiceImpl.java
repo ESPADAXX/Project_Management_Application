@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import server.dto.TaskCountDto;
 import server.model.Task;
 import server.repository.TaskRepository;
 import server.service.TaskService;
@@ -50,6 +51,27 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.delete(task);
         return ResponseEntity.ok("Task deleted successfully");
+    }
+
+    @Override
+    public List<Task> findTasksByUserId(Integer id) {
+        return null;
+    }
+
+
+    @Override
+    public List<Task> findUndoneTasksSortedByEndDateAndUserId(Integer id) {
+        return taskRepository.findUndoneTasksSortedByEndDateAndUserId(id);
+    }
+
+    @Override
+    public List<TaskCountDto> findTasksGroupedByDepartment() {
+        return taskRepository.findTasksGroupedByDepartment();
+    }
+
+    @Override
+    public List<Task> findTasksByProjectId(Integer id) {
+        return taskRepository.findTasksByProjectId(id);
     }
 }
 

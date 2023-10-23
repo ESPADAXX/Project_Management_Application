@@ -1,0 +1,102 @@
+<div class="grid grid-cols-2 gap-5 mt-[90px]">
+    <div class="col-span-2 bg-white rounded-[40px] p-9">
+            <div class="mb-6">
+              <span class="text-[#006e95] text-[50px] font-lato ">Project Details</span>
+            </div>
+      <div class="flex">
+        <div  class="w-[49%] flex-col flex content-between">
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">title :</span>
+                <span class=" text-[19px] ml-2">{{project.title}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span  class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">description :</span>
+                <span class="text-[19px] ml-2">{{project.description}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+              <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">Start Date :</span>
+              <span class="text-[19px] ml-2">{{formatDate(project.dateDebut)}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+              <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">End Date :</span>
+              <span  class="text-[19px] ml-2">{{formatDate(project.dateFin)}}</span>
+            </div>
+        </div>
+        <div class="w-[49%]">
+            <div class="flex-col flex mb-5">
+              <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">client name :</span>
+              <span  class="text-[19px] ml-2">{{project.client}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+              <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">price :</span>
+              <span  class="text-[19px] ml-2">{{project.price}} Dh</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-[40px] overflow-y-auto h-200px  p-4">
+        <span class="text-[#006e95] text-[30px] font-lato ">Tasks :</span>
+      <div class="rounded-3xl overflow-hidden w-[98%] my-6">
+        <table class="min-w-full table-auto ">
+          <thead>
+          <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-3 px-6 text-center">Title</th>
+            <th class="py-3 px-6 text-center">Description</th>
+            <th class="py-3 px-6 text-center">Status</th>
+
+          </tr>
+          </thead>
+          <tbody class="text-gray-600 text-sm font-light">
+          <tr *ngFor="let task of  tasks" class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"  [routerLink]="'/task/' + task.id">
+            <td class="py-3 px-6 text-center">
+              <div class="flex items-center">
+                <span>{{task.title}}</span>
+              </div>
+            </td>
+            <td class="py-3 px-6 text-center whitespace-nowrap">
+              <div class="flex justify-center text-center">
+                <span class="font-medium text-center">{{truncateDescription(task.description)}}</span>
+              </div>
+            </td>
+            <td class="py-3 px-6 text-center">
+              <span [ngStyle]="{'background-color': task.status === 'In Progress' ? '#00bfa0' : (task.status === 'Done' ? '#8ae185' : '#f9b071')}" class="text-white py-1 px-3 rounded-full text-xs">{{task.status}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <div class="bg-white rounded-[40px] overflow-y-auto h-200px  p-4">
+    <span class="text-[#006e95] text-[30px] font-lato ">Users :</span>
+    <div class="rounded-3xl overflow-hidden w-[98%] my-6">
+      <table class="min-w-full table-auto ">
+        <thead>
+        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+          <th class="py-3 px-6 text-center">User</th>
+          <th class="py-3 px-6 text-center">Role</th>
+          <th class="py-3 px-6 text-center">Department</th>
+
+        </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light">
+        <tr *ngFor="let task of  tasks" class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"  [routerLink]="'/user/' + task.user.id">
+          <td class="py-3 px-6 text-center">
+            <div class="flex items-center">
+              <span>{{task.user.fullName}}</span>
+            </div>
+          </td>
+          <td class="py-3 px-6 text-center whitespace-nowrap">
+            <div class="flex justify-center text-center">
+              <span class="font-medium text-center">{{task.user.role.name}}</span>
+            </div>
+          </td>
+          <td class="py-3 px-6 text-center">
+            <span>{{task.user.department.name}}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <div class="col-span-2 bg-white rounded-[40px]"></div>
+</div>

@@ -1,0 +1,31 @@
+<div class="mt-20 bg-white">
+  <div>
+    <form (submit)="infosSubmit()">
+      <label>Full name</label>
+      <input type="text" [(ngModel)]="updatedFullname" name="fullName">
+
+      <label>Email</label>
+      <input type="text" [(ngModel)]="updatedEmail" name="email">
+
+      <label>Picture</label>
+      <input type="file" (change)="updatedPic($event)" name="pathPic">
+
+      <label>Phone</label>
+      <input type="text" [(ngModel)]="updatedPhone" name="phone">
+
+      <label>Role</label>
+      <select [(ngModel)]="selectedRole" name="role">
+        <option *ngIf="user.role?.id" [value]="user.role" selected disabled>already has {{user.role?.name}}</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role.name }}</option>
+      </select>
+
+      <label>Department</label>
+      <select [(ngModel)]="selectedDepartment" name="department">
+        <option *ngIf="user.department?.id" [value]="user.department" selected disabled>already has {{user.department?.name}}</option>
+        <option *ngFor="let dep of departments" [value]="dep">{{ dep.name }}</option>
+      </select>
+
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</div>

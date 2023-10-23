@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {User} from "../dto/dto.module";
+import {Auth, User} from "../dto/user.dto.module";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
+import {DataSharingService} from "../api/data-sharing.service";
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,9 @@ export class HomeComponent {
   user: User ={
     id:0,
     fullName:'',
+    pathPic:'',
     email:'',
+    phone:'',
     role:{
       id:0,
       name:'String'
@@ -33,17 +36,27 @@ export class HomeComponent {
   imageUserWhite: string= `assets/img/user-${this.color}.png`;
 
   clickedElement: String='dashboard';
-  constructor(private route: ActivatedRoute ,private router:Router ) { }
+  constructor(private route: ActivatedRoute ,private router:Router ,private dataSharingService: DataSharingService) { }
 
   isOpenSideBar(){
     this.isSidebarOpen=!this.isSidebarOpen
   }
+  public userDetails:String=''
+  public userString:Auth={
+    id:0,
+    fullName:'',
+    email:'',
+  }
   ngOnInit(): void {
-
-    const userString = sessionStorage.getItem('user'); // Retrieve the user string from sessionStorage
-
-    if (userString) {
-      this.user= JSON.parse(userString) as User;
+    this.dataSharingService.getVariable().subscribe((variable) => {
+      this.clickedElement = variable;
+    });
+    // @ts-ignore
+    this.userString = sessionStorage.getItem('user')!;
+    this.userDetails='user/'+ this.userString.id
+    if (this.userString) {
+      // @ts-ignore
+      this.user= JSON.parse(this.userString) as User;
     } else {
       const navigationExtras: NavigationExtras = {
         skipLocationChange: true,
@@ -54,22 +67,4 @@ export class HomeComponent {
   }
 
 
-
-  liIsClicked(element:string) {
-    this.clickedElement=element
-      // switch (element){
-      //     case "dashboard":
-      //         this.imageDashboard = `assets/img/${element}-white.png`;
-      //         break;
-      //     case "project":
-      //         this.imageProject = `assets/img/${element}-white.png`;
-      //         break;
-      //     case "task":
-      //         this.imageTask = `assets/img/${element}-white.png`;
-      //         break;
-      //     case "user":
-      //         this.imageUser = `assets/img/${element}-white.png`;
-      //         break;
-      // }
-  }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../api/user/user.service';
-import {Login, User} from "../../dto/dto.module";
+import {Login, User} from "../../dto/user.dto.module";
 import {Router} from "@angular/router";
 
 @Component({
@@ -42,7 +42,8 @@ export class LoginComponent {
           this.response = response.message;
           this.user=response.user
           sessionStorage.setItem('user', JSON.stringify(response.user));
-          this.router.navigate(["/"])
+
+            this.router.navigate(['/']);
         },
         (error) => {
           if (error.error.email) {

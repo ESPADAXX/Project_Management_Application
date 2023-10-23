@@ -1,5 +1,7 @@
 package server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 //import org.springframework.security.core.userdetails.UserDetails;
 //
 //import java.util.Collection;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -24,6 +27,10 @@ public class User {
 
 	@Column(nullable = false)
 	private String fullName;
+
+
+	private String pathPic;
+
 
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -42,6 +49,7 @@ public class User {
 
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "department_id")
+
 	private Department department;
 
 	public User(String fullName, String email, String password, String phone) {

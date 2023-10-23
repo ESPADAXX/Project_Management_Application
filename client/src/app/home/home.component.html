@@ -1,14 +1,14 @@
 <style>
 </style>
 <div class="relative flex h-screen w-full" >
-    <div class="relative transition-width duration-300 ease-in-out h-screen" [ngClass]="isSidebarOpen?'w-1/6':'w-[5%]'">
-        <div class="bg-white h-[30%] rounded-t-full  absolute top-2 left-3 transition-width duration-300 ease-in-out" [ngClass]="isSidebarOpen?'w-full':'w-20'">
-            <div class="flex justify-center w-full">
+    <div class="transition-width duration-300 ease-in-out h-screen relative" [ngClass]="isSidebarOpen?'w-1/6':'w-[5%]'">
+        <div   class="bg-white h-[30%] cursor-pointer rounded-t-full  absolute top-2 left-3 transition-width duration-300 ease-in-out" [ngClass]="isSidebarOpen?'w-full':'w-20'">
+            <div  class="flex justify-center w-full">
                 <img src="assets/img/burger-menu-open.svg" class="w-[100px] h-10 cursor-pointer" (click)="isOpenSideBar()" alt="burger">
             </div>
             <div class="w-full">
                 <div class="w-[60%] m-auto mt-[10%] mb-2 relative overflow-hidden justify-center flex items-center rounded-full">
-                    <a routerLink="/"><img src="assets/img/user.png" class="w-full cursor-pointer " alt="user"></a>
+                    <a routerLink='/user/{{user.id}}'><img src="assets/img/user.png" class="w-full cursor-pointer " alt="user"></a>
                 </div>
                 <div *ngIf="isSidebarOpen" class="flex justify-center flex-col items-center w-full">
                         <p class="text-xl mb-1"> {{user.fullName}}</p>
@@ -20,11 +20,11 @@
 
         </div>
         <div class="bg-white h-[55%] absolute bottom-[15%] left-3 transition-all duration-300 ease-in-out" [ngClass]="isSidebarOpen?'w-full':'w-20 h-[73%]'">
-          <ul class="w-full h-screen pl-2 space-y-4">
+          <ul class="w-full pl-2 space-y-4">
             <li routerLink="dashboard" class="w-full group h-[60px] flex items-center cursor-pointer rounded-l-full p-2 hover:bg-[#36466A] hover:text-white
                 {{!isSidebarOpen ? 'flex justify-center items-center' : ''}}"
                 [ngClass]="clickedElement === 'dashboard' ? 'bg-[#36466A]' : 'bg-white'"
-                (click)="liIsClicked('dashboard')">
+             >
               <span class="w-[55px] h-[55px] flex justify-center items-center bg-[#36466A] rounded-full {{ !isSidebarOpen ? 'absolute' : '' }}">
                 <img [src]="imageDashboardWhite" class="w-[80%]" alt="dashboard">
               </span>
@@ -35,7 +35,7 @@
             <li routerLink="project" class="w-full group h-[60px] flex items-center cursor-pointer rounded-l-full p-2 hover:bg-[#36466A] hover:text-white
                 {{!isSidebarOpen ? 'flex justify-center items-center' : ''}}"
                 [ngClass]="clickedElement === 'project' ? 'bg-[#36466A]' : 'bg-white'"
-                (click)="liIsClicked('project')">
+            >
               <span class="w-[55px] h-[55px] flex justify-center items-center bg-[#36466A] rounded-full {{ !isSidebarOpen ? 'absolute' : '' }}">
                 <img [src]="imageProjectWhite" class="w-[80%]" alt="project">
               </span>
@@ -45,7 +45,7 @@
             </li>
             <li routerLink="task" class="w-full group h-[60px] flex items-center cursor-pointer rounded-l-full p-2 hover:bg-[#36466A] hover:text-white
                 {{!isSidebarOpen ? 'flex justify-center items-center' : ''}}"
-                (click)="liIsClicked('task')"
+
                 [ngClass]="clickedElement === 'task' ? 'bg-[#36466A]' : 'bg-white'">
               <span class="w-[55px] h-[55px] flex justify-center items-center bg-[#36466A] rounded-full {{ !isSidebarOpen ? 'absolute' : '' }}">
                 <img [src]="imageTaskWhite" class="w-[80%]" alt="task">
@@ -56,7 +56,7 @@
             </li>
             <li class="w-full group h-[55px] flex items-center cursor-pointer rounded-l-full p-2 hover:bg-[#36466A] hover:text-white
               {{!isSidebarOpen ? 'flex justify-center items-center' : ''}}"
-              (click)="liIsClicked('user')"
+
               [ngClass]="clickedElement === 'user' ? 'bg-[#36466A]' : 'bg-white'">
               <span class="w-[55px] h-[55px] flex justify-center items-center bg-[#36466A] rounded-full {{ !isSidebarOpen ? 'absolute' : '' }}">
                 <img [src]="imageUserWhite" class="w-[80%]" alt="user">
@@ -71,9 +71,9 @@
 
         </div>
     </div>
-    <div class="w-full ml-7">
+    <div class="w-full ml-7 overflow-y-auto">
         <app-header></app-header>
-        <router-outlet></router-outlet>
+        <router-outlet ></router-outlet>
     </div>
 </div>
 
