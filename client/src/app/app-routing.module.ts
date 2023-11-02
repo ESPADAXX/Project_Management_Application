@@ -14,6 +14,11 @@ import {UserDetailsComponent} from "./home/user/user-details/user-details.compon
 import {ProjectDetailsComponent} from "./home/project/project-details/project-details.component";
 import {AddProjectComponent} from "./home/project/add-project/add-project.component";
 import {EditProjectComponent} from "./home/project/edit-project/edit-project.component";
+import {EditTaskComponent} from "./home/task/edit-task/edit-task.component";
+import {AddTaskComponent} from "./home/task/add-task/add-task.component";
+import {TaskDetailsComponent} from "./home/task/task-details/task-details.component";
+import {EditUserComponent} from "./home/user/edit-user/edit-user.component";
+import {ProfileComponent} from "./home/user/profile/profile.component";
 
 
 const routes: Routes = [
@@ -29,9 +34,14 @@ const routes: Routes = [
       {path:'project/:id', component: ProjectDetailsComponent},
       {path:'new-project', component: AddProjectComponent},
       {path:'edit-project/:id', component: EditProjectComponent},
+      {path:'task/:id', component: TaskDetailsComponent},
+      {path:'new-task', component: AddTaskComponent},
+      {path:'edit-task/:id', component: EditTaskComponent},
       {path:'task', component: TaskComponent},
-      {path:'users', component: UserComponent},
-      {path:'user/:id', component: UserDetailsComponent}
+      {path:'user', component: UserComponent},
+      {path:'user/:id', component: UserDetailsComponent},
+      {path:'edit-user/:id', component: EditUserComponent},
+      {path:'profile/:id',component:ProfileComponent}
   ]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

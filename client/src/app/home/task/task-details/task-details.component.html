@@ -1,0 +1,43 @@
+<div class="col-span-2 bg-white rounded-[10px] p-10 mx-10 my-4">
+    <div class="mb-6">
+        <span class="text-[#006e95] text-[50px] font-lato ">Project Details</span>
+    </div>
+    <div class="flex">
+        <div  class="w-[49%] flex-col flex content-between">
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">title :</span>
+                <span class=" text-[19px] ml-2">{{taskResponse.title}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span  class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">description :</span>
+                <span class="text-[19px] ml-2">{{taskResponse.description}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">Start Date :</span>
+                <span class="text-[19px] ml-2">{{formatDate(taskResponse.dateDebut)}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">End Date :</span>
+                <span  class="text-[19px] ml-2">{{formatDate(taskResponse.dateFin)}}</span>
+            </div>
+        </div>
+        <div class="w-[49%]">
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">project :</span>
+                <span  class="text-[19px] ml-2">{{taskResponse.project.title}} </span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">department :</span>
+                <span  class="text-[19px] ml-2">{{taskResponse.department.name}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">User :</span>
+                <span  class="text-[19px] ml-2">{{taskResponse.user.fullName}}</span>
+            </div>
+            <div class="flex-col flex mb-5">
+                <span class="text-[#36466A] text-[20px] font-lato pb-3 capitalize">User Role:</span>
+                <span  class="text-[19px] ml-2">{{taskResponse.user.role.name}}</span>
+            </div>
+        </div>
+    </div>
+</div>

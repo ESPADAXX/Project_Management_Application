@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../api/user/user.service';
 import {Login, User} from "../../dto/user.dto.module";
 import {Router} from "@angular/router";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent {
   user: User | undefined
   response: string = '';
 
-  constructor(private userService: UserService,private router:Router) {}
+  constructor(private userService: UserService,private router:Router, private toast: NgToastService) {}
 
   submitForm() {
     this.errorMessage.fieldName.email = false;
@@ -40,6 +41,7 @@ export class LoginComponent {
     this.userService.login('login', this.formData).subscribe(
         (response) => {
           this.response = response.message;
+          this.toast.success({detail:"SUCCESS",summary:this.response,duration:2000});
           this.user=response.user
           sessionStorage.setItem('user', JSON.stringify(response.user));
 

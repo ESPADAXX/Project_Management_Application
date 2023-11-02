@@ -32,5 +32,8 @@ export class ProjectService {
     };
     return await axios.put(`${this.configService.baseUrl}/${endpoint}/${id}`,data,{headers})
   }
+  async deleteProject(endpoint: string, id: number):Promise<AxiosResponse<ProjectResponse>>{
+    return await axios.delete(`${this.configService.baseUrl}/${endpoint}/${id}`)
+  }
 
 }

@@ -27,5 +27,13 @@ export interface ProjectResponse{
         price?: string;
         client?: string;
         date?: string;
-    }[];
+    }[],
+  message:string|undefined
+}
+export interface ProjectPage{
+  content:Project[],
+  pageable: {
+    pageNumber: number,
+    pageSize: number,}
+  totalPages: number
 }

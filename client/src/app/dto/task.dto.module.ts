@@ -1,3 +1,7 @@
+import {Project} from "./project.dto.module";
+import {User} from "./user.dto.module";
+import {Department} from "./department.dto.module";
+
 export interface TasksColors {
   status:String
   title:String
@@ -46,4 +50,49 @@ export interface Tasks {
         name:string
     }
     }
+}
+export interface TaskResponse{
+  status:boolean,
+  errors: {
+    id:number,
+    status:string
+    title:string
+    description:string
+    date:string,
+    project:string,
+    department: string,
+    user:string,
+  }[],
+  message:string|undefined
+}
+export interface TaskPage{
+  content:Tasks[],
+  pageable: {
+    pageNumber: number,
+    pageSize: number,
+  }
+  totalPages: number
+}
+export interface TaskRequest{
+  status:string|undefined
+  title:string
+  description:string
+  dateFin:Date
+  dateDebut:Date
+  project:number|undefined
+  department: number|undefined
+  user:number|undefined
+}
+export interface TaskData {
+  taskCount: number;
+  departmentName: string;
+  taskStatus: string;
+}
+
+export interface TaskStatusCounts {
+  [status: string]: number;
+}
+
+export interface Percentages {
+  [departmentName: string]: number;
 }

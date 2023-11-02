@@ -27,7 +27,7 @@ import {
   ApexTooltip
 } from "ng-apexcharts";
 
-import {Tasks, TasksColors} from "../../dto/task.dto.module";
+import {Percentages, Tasks, TasksColors, TaskStatusCounts} from "../../dto/task.dto.module";
 import {DataSharingService} from "../../api/data-sharing.service";
 
 export type ChartOptions2 = {
@@ -81,15 +81,15 @@ export class DashboardComponent {
     this.chartOptions2 = {
       series: [
         {
-          name: "Net Profit",
+          name: "In progress",
           data: [44, 55, 57, 56, 61, 58, 63]
         },
         {
-          name: "Revenue",
+          name: "Done",
           data: [76, 85, 101, 98, 87, 105, 91]
         },
         {
-          name: "Free Cash Flow",
+          name: "Pending",
           data: [35, 41, 36, 26, 45, 48, 52]
         }
       ],
@@ -139,6 +139,7 @@ export class DashboardComponent {
       }
     };
   }
+
 
 
   tasksByUser: Tasks[] | undefined
@@ -205,28 +206,46 @@ export class DashboardComponent {
       this.taskService.taskGroupedByDepartment('task')
         .then(response => {
           this.tasksByDep = response.data;
+            console.log(this.tasksByDep)
 
-          // Calculate percentages
-          const doneTasksByDepartment: Record<string, number> = {};
-          this.tasksByDep.forEach((task: { departmentName: any; taskStatus: string; }) => {
+          const percentages: Percentages = {};
+
+// Group tasks by department and status
+          const tasksByDepartmentAndStatus: { [departmentName: string]: TaskStatusCounts } = {};
+
+            this.tasksByDep.forEach((task: { departmentName: any; taskStatus: any; taskCount: number; }) => {
             const departmentName = task.departmentName;
+            const taskStatus = task.taskStatus;
 
-            if (task.taskStatus === 'Done') {
-              doneTasksByDepartment[departmentName] = (doneTasksByDepartment[departmentName] || 0) + 1;
+            // Initialize the object for the department if it doesn't exist
+            if (!tasksByDepartmentAndStatus[departmentName]) {
+              tasksByDepartmentAndStatus[departmentName] = {};
             }
+
+            // Initialize the count for the task status if it doesn't exist
+            if (!tasksByDepartmentAndStatus[departmentName][taskStatus]) {
+              tasksByDepartmentAndStatus[departmentName][taskStatus] = 0;
+            }
+
+            // Increment the count for the task status
+            tasksByDepartmentAndStatus[departmentName][taskStatus] += task.taskCount;
           });
 
-          Object.keys(doneTasksByDepartment).forEach(departmentName => {
-            const totalTasks = this.tasksByDep.filter((task: {
-              departmentName: string;
-            }) => task.departmentName === departmentName).length;
-            const doneTasks = doneTasksByDepartment[departmentName];
+          Object.keys(tasksByDepartmentAndStatus).forEach((departmentName) => {
+            const doneTasks = tasksByDepartmentAndStatus[departmentName]['Done'] || 0;
+            const totalTasks =
+              doneTasks +
+              (tasksByDepartmentAndStatus[departmentName]['In Progress'] || 0) +
+              (tasksByDepartmentAndStatus[departmentName]['Pending'] || 0);
 
-            this.percentages[departmentName] = Math.round((doneTasks / totalTasks) * 100);
+            // Calculate the percentage and round it to the nearest integer
+            percentages[departmentName] = Math.round((doneTasks / totalTasks) * 100);
           });
 
-          this.departmentNames = Object.keys(this.percentages);
-          this.departmentPercentages = Object.values(this.percentages);
+          console.log(percentages);
+
+          this.departmentNames = Object.keys(percentages);
+          this.departmentPercentages = Object.values(percentages);
           if (this.departmentNames.length > 0 && this.departmentPercentages.length > 0) {
             this.chartOptions = {
               series: this.departmentPercentages,

@@ -1,1 +1,101 @@
-<p>task works!</p>
+<div class="relative bg-white rounded-[10px] flex items-center flex-col p-10 mx-10 my-4">
+  <div class=" w-full flex justify-start">
+    <span class="text-[#006e95] text-[50px] font-lato"> Tasks List </span>
+  </div>
+  <div class=" w-full flex justify-end mb-4">
+    <button class="bg-[#0098a9] w-[120px] rounded-full h-[40px] text-white" routerLink="/new-task">Add New Tasks</button>
+  </div>
+  <div class="flex justify-end w-full">
+    <span class="flex content-center bg-gray-200 rounded-full">
+      <span class="flex items-center pl-4 font-quicksand">Filter by status :</span>
+      <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand"
+              [(ngModel)]="statusSelected" (ngModelChange)="filter()">
+        <option [ngValue]="undefined" selected>All status</option>
+        <option [ngValue]="'In progress'">In progress</option>
+        <option [ngValue]="'Pending'">Pending</option>
+        <option [ngValue]="'Done'">Done</option>
+      </select>
+
+    </span>
+    <span class="ml-3 flex content-center bg-gray-200 rounded-full">
+      <span class="flex items-center pl-4 font-quicksand">Filter by departments :</span>
+      <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand"
+              [(ngModel)]="departmentSelected" (ngModelChange)="filter()">
+        <option [ngValue]="undefined">All departments</option>
+        <ng-container *ngFor="let department of department">
+          <option [ngValue]="department.id">{{ department.name }}</option>
+        </ng-container>
+      </select>
+
+    </span>
+  </div>
+  <div class="rounded-3xl overflow-hidden w-[98%] my-6">
+    <table class="min-w-full table-auto ">
+      <thead>
+      <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <th class="py-3 px-6 text-center">title</th>
+        <th class="py-3 px-6 text-center">Description</th>
+        <th class="py-3 px-6 text-center">department</th>
+        <th class="py-3 px-6 text-center">End Date</th>
+        <th class="py-3 px-6 text-center">status</th>
+        <th class="py-3 px-6 text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody class="text-gray-600 text-sm font-light">
+      <tr *ngFor="let task of  tasks.content" class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer" >
+        <td [routerLink]="'/task/' + task.id" class="py-3 px-6 text-center">
+          {{task.title}}
+        </td>
+        <td [routerLink]="'/task/' + task.id" class="py-3 px-6 text-center whitespace-nowrap">
+          <div class="flex justify-center text-center">
+            <span class="font-medium text-center">{{truncateDescription(task.description)}}</span>
+          </div>
+        </td>
+        <td [routerLink]="'/task/' + task.id" class="py-3 px-6 text-center">
+          <div class="flex items-center justify-center">
+            <div>{{task.department.name}}</div>
+          </div>
+
+        </td>
+        <td [routerLink]="'/task/' + task.id" class="py-3 px-6 text-center">
+          <span  class="py-1 px-3 rounded-full text-xs">{{formatDate(task.dateDebut)}}</span>
+        </td>
+        <td [routerLink]="'/task/' + task.id" class="py-3 px-6 text-center">
+          <span [ngStyle]="{'background-color': task.status === 'In Progress' ? '#00bfa0' : (task.status === 'Done' ? '#8ae185' : '#f9b071')}" class="text-white py-1 px-3 rounded-full text-xs">{{task.status}}</span>
+        </td>
+        <td class="py-3 px-6 text-center">
+          <div class="flex items-center justify-center">
+            <div class="flex justify-between">
+              <img [routerLink]="'/edit-task/' + task.id" src="assets/img/edit.png" alt="edit" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-yellow-100">
+              <img (click)="deleteElement(task.id)" src="assets/img/delete.png" alt="delete" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-red-300 ">
+            </div>
+          </div>
+
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="w-full flex justify-end" *ngIf="tasks.totalPages>1">
+      <nav aria-label="Pagination" class="flex justify-center items-center text-gray-600 mt-8 lg:mt-0">
+        <a class="p-2 mr-4 rounded hover:bg-gray-100" (click)="loadPage(tasks.pageable.pageNumber - 1)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+        <div *ngFor="let pageNumber of getPaginationRange()" >
+          <a  class="px-4 py-2 rounded cursor-pointer"
+             [class.bg-gray-200]="pageNumber === tasks.pageable.pageNumber"
+             [class.text-gray-900]="pageNumber === tasks.pageable.pageNumber"
+             [class.hover:bg-gray-100]="pageNumber !== tasks.pageable.pageNumber"
+             (click)="loadPage(pageNumber)">{{ pageNumber + 1 }}</a>
+        </div>
+        <a  class="p-2 ml-4 rounded hover:bg-gray-100" (click)="loadPage(tasks.pageable.pageNumber + 1)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+      </nav>
+    </div>
+  </div>
+</div>

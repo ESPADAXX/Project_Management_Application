@@ -1,0 +1,136 @@
+
+<div class="relative bg-white rounded-[10px] flex items-center flex-col p-10 mx-10 my-4">
+    <div class="mb-6">
+        <span class="text-[#006e95] text-[50px] font-lato ">Add Task</span>
+    </div>
+    <form class="w-full h-full flex" (submit)="submitForm()" >
+        <div class="w-[50%] p-5">
+            <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
+                    <label for="title" class=" font-semibold px-1 text-lg font-quicksand capitalize ">title</label>
+                    <div class="flex">
+                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-format-title text-gray-400 text-lg"></i></div>
+                        <input type="text" id="title" name="title" [(ngModel)]="formData.title"  class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg text-lg font-quicksand border-2 border-gray-200 outline-none focus:border-[#46648c]" placeholder="task title">
+                    </div>
+                    <div *ngIf="!response.status && response.errors[0].title" class="text-rose-900 text-sm">
+                        {{response.errors[0].title}}
+                    </div>
+                </div>
+            </div>
+            <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
+                    <label for="description" class=" font-semibold px-1 text-lg font-quicksand capitalize">description</label>
+                    <div class="flex">
+                        <div class="w-10 z-10 pl-1 pt-2 text-center pointer-events-none flex items-start justify-center"><i class="mdi mdi-text-box-outline text-gray-400 text-lg"></i></div>
+                        <textarea id="description" name="description" rows="7" [(ngModel)]="formData.description"   class="w-full -ml-10 pl-10 pr-3 py-2 text-lg font-quicksand rounded-lg border-2 border-gray-200 outline-none focus:border-[#46648c]" placeholder="Insert the task Description"></textarea>
+                    </div>
+                    <div *ngIf="!response.status && response.errors[0]" class="text-rose-900 text-sm">
+                        {{response.errors[0].description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-[50%] p-5">
+            <div class="flex w-full flex-col">
+                <div class="flex w-full justify-between">
+                    <div class="flex w-[50%] -mx-3">
+                        <div class="w-full px-3 mb-5">
+                            <label for="startDate" class=" font-semibold px-1 text-lg font-quicksand capitalize ">start date</label>
+                            <div class="flex">
+                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-calendar-range text-gray-400 text-lg"></i></div>
+                                <input type="date" id="startDate" name="startDate"  [(ngModel)]="formData.dateDebut"  class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg font-quicksand border-2 border-gray-200 outline-none focus:border-[#46648c]" placeholder="project title">
+                            </div>
+                            <div *ngIf="!response.status && response.errors[0].date" class="text-rose-900 text-sm">
+                                {{response.errors[0].date}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-[50%] -mx-3">
+                        <div class="w-full px-3 mb-5">
+                            <label for="endDate" class=" font-semibold px-1 text-lg font-quicksand capitalize ">end date</label>
+                            <div class="flex">
+                                <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-calendar-range text-gray-400 text-lg"></i></div>
+                                <input type="date" id="endDate" name="endDate" [(ngModel)]="formData.dateFin"   class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg font-quicksand border-2 border-gray-200 outline-none focus:border-[#46648c]" placeholder="project title">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex -mx-3">
+                    <div class="w-full px-3 mb-5">
+                        <label for="title" class=" font-semibold px-1 text-lg font-quicksand capitalize ">Project</label>
+                        <div class="ml-3 flex content-center bg-gray-200 rounded-full">
+                              <div class="flex items-center pl-4 w-[30%] font-quicksand">choose a project</div>
+                              <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full w-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand">
+                                <option (click)="projectSelectedId=undefined " selected disabled>... </option>
+                                <ng-container *ngFor="let project of projects">
+                                  <option [value]="project.id" (click)="formData.project=project.id">{{project.title}}</option>
+                                </ng-container>
+                              </select>
+                        </div>
+                        <div *ngIf="!response.status && response.errors[0].project" class="text-rose-900 text-sm">
+                            {{response.errors[0].project}}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex -mx-3">
+                    <div class="w-full px-3 mb-5">
+                        <label for="title" class=" font-semibold px-1 text-lg font-quicksand capitalize ">Departments</label>
+                        <div class="ml-3 flex content-center bg-gray-200 rounded-full">
+                              <div class="flex items-center pl-4  w-[30%] font-quicksand">choose a department</div>
+                                <select name="department" class="py-3 px-4 pr-9 block border-gray-200 rounded-full w-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand"
+                                        [(ngModel)]="departmentSelectedId" (ngModelChange)="filterByDepartment()">
+                                  <option [ngValue]="undefined" selected>...</option>
+                                  <ng-container *ngFor="let department of departments">
+                                    <option [ngValue]="department.id">{{department.name}}</option>
+                                  </ng-container>
+                                </select>
+                        </div>
+                        <div *ngIf="!response.status && response.errors[0].department" class="text-rose-900 text-sm">
+                            {{response.errors[0].department}}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex -mx-3">
+                    <div class="w-full px-3 mb-5">
+                        <label for="title" class=" font-semibold px-1 text-lg font-quicksand capitalize ">Users</label>
+                        <div class="ml-3 flex content-center bg-gray-200 rounded-full">
+                            <div class="flex items-center pl-4  w-[30%] font-quicksand">choose a user</div>
+                            <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full text-sm w-full focus:border-blue-500 focus:ring-blue-500 font-quicksand">
+                                <option (click)="userSelectedId=undefined" selected >... </option>
+                                <ng-container *ngFor="let user of users">
+                                    <option [value]="user.id" (click)="formData.user=user.id"  >{{user.fullName}} : {{user.department?.name}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div *ngIf="!response.status && response.errors[0].user" class="text-rose-900 text-sm">
+                            {{response.errors[0].user}}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex -mx-3">
+                  <div class="w-full px-3 mb-5">
+                    <label for="title" class=" font-semibold px-1 text-lg font-quicksand capitalize ">Status</label>
+                    <div class="ml-3 flex content-center justify-between">
+                      <div class="flex items-center pl-4 font-quicksand">task's status</div>
+                        <div *ngFor="let option of status" class="flex items-center p-4">
+                          <input type="radio" name="status" [(ngModel)]="selectedOption" [value]="option.name" id="{{option.name}}"
+                                 class="h-4 w-4 border border-gray-300 rounded focus:ring-indigo-500"
+                                  (change)="formData.status=option.name">
+                          <label for="{{option.name}}" class="ml-2 text-gray-700">{{option.name}}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="!response.status && response.errors[0].status" class="text-rose-900 text-sm">
+                      {{response.errors[0].status}}
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="flex -mx-3 mt-9">
+                <div class="w-full px-3 mb-5">
+                    <button class="block w-full max-w-xs mx-auto bg-[#46648c] hover:bg-[#242444] focus:bg-[#242444] text-white rounded-lg px-3 py-3 font-semibold">ADD TASK</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -4,6 +4,7 @@ import {DataSharingService} from "../../../api/data-sharing.service";
 import {Project, ProjectRequest, ProjectResponse} from "../../../dto/project.dto.module";
 import {ActivatedRoute, Router} from "@angular/router";
 import {id} from "date-fns/locale";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-edit-project',
@@ -15,7 +16,8 @@ export class EditProjectComponent {
   constructor( private projectService:ProjectService,
                private dataSharingService:DataSharingService,
                private route:ActivatedRoute,
-               private router:Router
+               private router:Router,
+               private toast:NgToastService,
   ) {}
 
 
@@ -41,6 +43,7 @@ export class EditProjectComponent {
   response:ProjectResponse={
     status:true,
     errors: [],
+    message:''
   };
   submitForm() {
 
@@ -49,8 +52,13 @@ export class EditProjectComponent {
             response=>{
 
               this.response=response.data
-              console.log(this.response)
-                this.router.navigate(["/project"])
+              if (this.response.status){
+                this.toast.success({detail:"SUCCESS",summary:this.response.message,duration:2000});
+                this.router.navigate(['/project'])
+              }else {
+                this.toast.error({detail:"ERROR",summary:this.response.message,duration:2000});
+
+              }
             }
         )
         .catch(

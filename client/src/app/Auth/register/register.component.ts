@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Register} from "../../dto/user.dto.module";
 import {UserService} from "../../api/user/user.service";
 import {Router} from "@angular/router";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-register',
@@ -32,8 +33,8 @@ export class RegisterComponent {
         confirmationPassword:''
     },
     };
-  constructor(private userService: UserService, private router: Router) {}
-  response:String=''
+  constructor(private userService: UserService, private router: Router, private toast: NgToastService) {}
+  response:string=''
     submitForm(){
         // Reset field name flags to false
         this.errorMessage.fieldName.email = false;
@@ -43,7 +44,9 @@ export class RegisterComponent {
             this.userService.register('register', this.formData).subscribe(
                 (response) => {
                     this.response = response.message;
-                    this.router.navigate(['/login'])
+                  this.toast.success({detail:"SUCCESS",summary:this.response,duration:2000});
+
+                  this.router.navigate(['/login'])
                 },
                 (error) => {
                     if(error.error.email){

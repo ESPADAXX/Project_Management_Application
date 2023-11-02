@@ -79,28 +79,28 @@ this.roleService.getRole('role')
   console.error(error)}
   )
 }
-infosSubmit(){
-  const formData = new FormData();
-  formData.append('id', this.user.id.toString());
-  formData.append('fullName', this.updatedFullname ? this.updatedFullname : this.user.fullName);
-  formData.append('email', this.updatedEmail ? this.updatedEmail : this.user.email);
-  formData.append('phone', this.updatedPhone ? this.updatedPhone : this.user.phone);
-  formData.append('role', JSON.stringify(this.selectedRole?this.selectedRole:this.user.role));
-  formData.append('department', JSON.stringify(this.selectedDepartment?this.selectedDepartment:this.user.department));
-  formData.append('file', this.updatedPicPath as Blob);
-  this.userService.updateUser('user',this.id,formData)
-    .then(
-      response=>{
-        console.log(response)
-      }
-    )
-    .catch(error=>{
-      console.error(error)
-    })
-
-  }
-
-  updatedPic(event:any) {
-    this.updatedPicPath=event.target.files[0]
-  }
+// infosSubmit(){
+//   const formData = new FormData();
+//   formData.append('id', this.user.id.toString());
+//   formData.append('fullName', this.updatedFullname ? this.updatedFullname : this.user.fullName);
+//   formData.append('email', this.updatedEmail ? this.updatedEmail : this.user.email);
+//   formData.append('phone', this.updatedPhone ? this.updatedPhone : this.user.phone);
+//   formData.append('role', JSON.stringify(this.selectedRole?this.selectedRole:this.user.role));
+//   formData.append('department', JSON.stringify(this.selectedDepartment?this.selectedDepartment:this.user.department));
+//   formData.append('file', this.updatedPicPath as Blob);
+//   this.userService.updateUser('user',this.id,formData)
+//     .then(
+//       response=>{
+//         console.log(response)
+//       }
+//     )
+//     .catch(error=>{
+//       console.error(error)
+//     })
+//
+//   }
+//
+//   updatedPic(event:any) {
+//     this.updatedPicPath=event.target.files[0]
+//   }
 }

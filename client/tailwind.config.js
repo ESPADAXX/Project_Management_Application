@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       fontFamily: {
         lato: ['Lato', 'sans'],
-        quicksand: ['Quicksand', 'sans-serif']
+        quicksand: ['Quicksand', 'sans-serif'],
+        cocon:['Cocon','sans-serif']
       },
     },
   },

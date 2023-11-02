@@ -1,1 +1,110 @@
-<p>user-list works!</p>
+<div class="relative bg-white rounded-[10px] flex items-center flex-col p-10 mx-10 my-4">
+    <div class=" w-full flex justify-start">
+        <span class="text-[#006e95] text-[50px] font-lato"> Users List </span>
+    </div>
+  <div class="mt-12 w-full">
+    <div class="flex w-full justify-end">
+        <span class="flex content-center bg-gray-200 rounded-full">
+          <span class="flex items-center pl-4 font-quicksand">Filter by role :</span>
+          <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand"
+                  [(ngModel)]="roleSelected" (ngModelChange)="filter()">
+            <option [ngValue]="undefined">All roles</option>
+            <ng-container *ngFor="let role of roles">
+              <option [ngValue]="role.id">{{ role.name }}</option>
+            </ng-container>
+          </select>
+
+        </span>
+            <span class="ml-3 flex content-center bg-gray-200 rounded-full">
+          <span class="flex items-center pl-4 font-quicksand">Filter by departments :</span>
+          <select class="py-3 px-4 pr-9 block border-gray-200 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 font-quicksand"
+                  [(ngModel)]="departmentSelected" (ngModelChange)="filter()">
+            <option [ngValue]="undefined">All departments</option>
+            <ng-container *ngFor="let department of department">
+              <option [ngValue]="department.id">{{ department.name }}</option>
+            </ng-container>
+          </select>
+        </span>
+    </div>
+    <div *ngIf="users.content.length>0; else elseBlock" class="w-full">
+        <div class="rounded-3xl overflow-hidden w-[98%] my-6">
+            <table class="min-w-full table-auto ">
+                <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-center">Full Name</th>
+                    <th class="py-3 px-6 text-center">email</th>
+                    <th class="py-3 px-6 text-center">phone</th>
+                    <th class="py-3 px-6 text-center">role</th>
+                    <th class="py-3 px-6 text-center">department</th>
+                    <th class="py-3 px-6 text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                <tr *ngFor="let user of  users.content" class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer" >
+                    <td [routerLink]="'/task/' + user.id" class="py-3 px-6 text-center">
+                        {{user.fullName}}
+                    </td>
+                    <td [routerLink]="'/task/' + user.id" class="py-3 px-6 text-center whitespace-nowrap">
+                        <div class="flex justify-center text-center">
+                            <span class="font-medium text-center">{{user.email}}</span>
+                        </div>
+                    </td>
+                    <td [routerLink]="'/task/' + user.id" class="py-3 px-6 text-center">
+                        <div class="flex items-center justify-center">
+                            <div>{{user.phone?user.phone:'---'}}</div>
+                        </div>
+
+                    </td>
+                    <td [routerLink]="'/task/' + user.id" class="py-3 px-6 text-center">
+                        <span  class="py-1 px-3 rounded-full text-xs">{{user.role?.name}}</span>
+                    </td>
+                    <td [routerLink]="'/task/' + user.id" class="py-3 px-6 text-center">
+                        <span  class="py-1 px-3 rounded-full text-xs">{{user.department?.name}}</span>
+                    </td>
+                    <td class="py-3 px-6 text-center">
+                        <div class="flex items-center justify-center">
+                            <div class="flex justify-between">
+                                <img [routerLink]="'/edit-user/' + user.id" src="assets/img/edit.png" alt="edit" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-yellow-100">
+                                <img (click)="deleteElement(user.id)" src="assets/img/delete.png" alt="delete" class="m-2 cursor-pointer rounded-full p-1  w-8 h-auto hover:bg-red-300 ">
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <div class="w-full flex justify-end" *ngIf="users.totalPages>1">
+                <nav aria-label="Pagination" class="flex justify-center items-center text-gray-600 mt-8 lg:mt-0">
+                    <a class="p-2 mr-4 rounded hover:bg-gray-100" (click)="loadPage(users.pageable.pageNumber - 1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                    <div *ngFor="let pageNumber of getPaginationRange()" >
+                        <a  class="px-4 py-2 rounded cursor-pointer"
+                            [class.bg-gray-200]="pageNumber === users.pageable.pageNumber"
+                            [class.text-gray-900]="pageNumber === users.pageable.pageNumber"
+                            [class.hover:bg-gray-100]="pageNumber !== users.pageable.pageNumber"
+                            (click)="loadPage(pageNumber)">{{ pageNumber + 1 }}</a>
+                    </div>
+                    <a  class="p-2 ml-4 rounded hover:bg-gray-100" (click)="loadPage(users.pageable.pageNumber + 1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
+    <ng-template #elseBlock>
+        <div class="w-full flex items-center justify-center m-[200px]">
+            <div class="text-[#006e95] text-[90px] font-lato">
+                <span >No users</span>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

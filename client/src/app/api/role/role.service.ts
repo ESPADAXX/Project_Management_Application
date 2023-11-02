@@ -14,4 +14,8 @@ export class RoleService {
     const url = `${this.configService.baseUrl}/${endPoint}`
     return await axios.get(url)
   }
+  async getRoleByDepartmentId(endPoint:String,id:number|undefined):Promise<AxiosResponse<Role[]>>{
+    const url = `${this.configService.baseUrl}/${endPoint}/${id}`
+    return await axios.get(url)
+  }
 }

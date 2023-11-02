@@ -23,7 +23,12 @@ export class ProjectDetailsComponent {
         client:''
     };
     public tasks:Tasks[]=[]
-constructor(private route: ActivatedRoute,private projectService:ProjectService ,private taskService:TaskService, private dataSharingService: DataSharingService) {
+constructor(
+            private route: ActivatedRoute,
+            private projectService:ProjectService,
+            private taskService:TaskService,
+            private dataSharingService: DataSharingService
+) {
 }
 ngOnInit(){
   const navigationPlace = 'project';
