@@ -41,5 +41,13 @@ public class RoleController {
     public ResponseEntity<String> deleteRole(@PathVariable Integer id) {
         return roleService.deleteRole(id);
     }
+
+    @GetMapping("/department/{id}")
+    public  List<Role> getRoleByDepartmentId(@PathVariable Integer id){
+        if (id!=null){
+            return  roleService.findRoleByDepartmentId(id);
+        }
+        return roleService.findAllRoles();
+    }
 }
 

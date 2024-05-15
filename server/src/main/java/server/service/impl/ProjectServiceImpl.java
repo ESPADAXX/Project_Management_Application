@@ -46,6 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (!errorsList.isEmpty()){
             response.put("status",false);
             response.put("errors",errorsList);
+            response.put("message","Failed to add your project. Please review the following errors.");
             return ResponseEntity.status(200).body(response);
         }
         projectRepository.save(project);
@@ -89,6 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (!errorsList.isEmpty()){
             response.put("status",false);
             response.put("errors",errorsList);
+            response.put("message","Failed to update your project. Please review the following errors.");
             return ResponseEntity.status(200).body(response);
         }
         existingProject.setId(project.getId());
@@ -106,12 +108,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseEntity<String> deleteProject(Integer id) {
+    public ResponseEntity<Map<String,Object>> deleteProject(Integer id) {
+        Map<String,Object> response= new HashMap<>();
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid project id " + id));
 
         projectRepository.delete(project);
-        return ResponseEntity.ok("Project deleted successfully");
+        response.put("message","Deleted successfully");
+        response.put("status",true);
+        return ResponseEntity.ok(response);
     }
 
 

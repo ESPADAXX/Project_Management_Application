@@ -9,7 +9,7 @@ import server.service.ProjectService;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
@@ -29,18 +29,18 @@ public class ProjectController {
         return ResponseEntity.ok(project);
     }
 
-    @PostMapping(consumes= MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping()
     public ResponseEntity<Map<String, Object>> addProject(@RequestBody Project project) {
         return projectService.addProject(project);
     }
-    @CrossOrigin(origins = "http://localhost:8081")
+
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Integer id, @RequestBody Project project) {
         return projectService.updateProject(id, project);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProject(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Integer id) {
         return projectService.deleteProject(id);
     }
 

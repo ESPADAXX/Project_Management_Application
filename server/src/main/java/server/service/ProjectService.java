@@ -15,7 +15,7 @@ public interface ProjectService {
 
     ResponseEntity<Map<String, Object>> updateProject(Integer id, Project project);
 
-    ResponseEntity<String> deleteProject(Integer id);
+    ResponseEntity<Map<String, Object>> deleteProject(Integer id);
 
      List<Project> findProjectByDate();
 }

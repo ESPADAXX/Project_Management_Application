@@ -51,4 +51,9 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.delete(role);
         return ResponseEntity.ok("Role deleted successfully");
     }
+
+    @Override
+    public List<Role> findRoleByDepartmentId(Integer id) {
+        return roleRepository.findRoleByDepartmentId(id);
+    }
 }

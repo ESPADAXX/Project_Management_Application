@@ -20,7 +20,6 @@ public class Department {
     @Column(nullable = false)
     private String name;
 
-
     public Department(String name) {
         this.name = name;
     }

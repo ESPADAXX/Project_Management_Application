@@ -15,4 +15,6 @@ public interface RoleService {
     ResponseEntity<String> updateRole(Integer id, Role role);
 
     ResponseEntity<String> deleteRole(Integer id);
+
+    List<Role> findRoleByDepartmentId(Integer id);
 }

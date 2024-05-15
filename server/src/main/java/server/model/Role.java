@@ -16,13 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Role {
+public class Role  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
 
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
     public Role(String name) {
         this.name = name;

@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
     @Query("SELECT p from Project p WHERE p.dateFin>CURRENT_DATE")
     List<Project> findProjectByDateFinBeforeEnd();
+
+    Project findProjectById(Integer project);
 }
